@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_welfare"
+        android:icon="@mipmap/ic_beauty"
+        app:showAsAction="always"
+        android:title="@string/menu_meizhi"/>
+
+    <item
+        android:id="@+id/nav_ganhuo"
+        android:icon="@mipmap/ic_read"
+        app:showAsAction="always"
+        android:title="@string/menu_gank"/>
+
+    <item
+        android:id="@+id/nav_vedio"
+        app:showAsAction="never"
+        android:title="@string/menu_restvedio"/>
+
+    <item
+        android:id="@+id/nav_recommend"
+        app:showAsAction="never"
+        android:title="@string/menu_recommend"/>
+
+    <item
+        android:id="@+id/nav_about"
+        app:showAsAction="never"
+        android:title="@string/menu_about"/>
+</menu>

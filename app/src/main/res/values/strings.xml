@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Gank.io</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="menu_share">分享</string>
+    <string name="menu_meizhi">萌妹纸</string>
+    <string name="menu_gank">技术干货</string>
+    <string name="menu_restvedio">休息视频</string>
+    <string name="menu_recommend">瞎推荐</string>
+    <string name="menu_about">关于</string>
+    <string name="menu_save">保存</string>
+    <string name="menu_refresh">刷新</string>
+    <string name="menu_copy_url">复制链接</string>
+    <string name="menu_openwith_broswer">浏览器打开</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="aty_about_title">关于</string>
+    <string name="aty_about_share_txt">每天自动更新一张精选妹纸图、一个小视频以及一系列精选程序猿干货(周末不更新) ^_^ </string>
+    <string name="aty_about_introduction"><![CDATA[每天自动更新一张精选妹纸图、一个小视频以及一系列精选程序猿干货(周末不更新)。<br/>感谢<a href="https://github.com/daimajia">代码家</a>以及他的<a href="http://gank.io">干货集中营</a> o(^_^)o]]></string>
+    <string name="aty_about_lbl_opensource_list">io.reactivex:rxjava:1.1.1 \nio.reactivex:rxandroid:1.1.0 \ncom.squareup.picasso:picasso:2.3.2 \ncom.squareup.retrofit2:retrofit:2.0.0-beta4 \ncom.squareup.retrofit2:converter-gson:2.0.0-beta4 \ncom.squareup.retrofit2:adapter-rxjava:2.0.0-beta4 \ncom.android.support:appcompat-v7:23.1.1 \ncom.android.support:design:23.1.1 \ncom.android.support:recyclerview-v7:23.1.1 \ncom.android.support:cardview-v7:23.1.1</string>
+    <string name="aty_about_lbl_share">每日分享技术干货 ^_^</string>
+    <string name="aty_about_lbl_introduce">介绍</string>
+    <string name="aty_about_lbl_opensource">使用的开源库</string>
+    <string name="aty_meizhi_title">妹纸</string>
+
+    <string name="info_no_more_data">木有更多数据惹~</string>
+    <string name="info_network_error">啊咧，网络似乎出了点问题...</string>
+    <string name="info_save_meizhi_success">保存成功~</string>
+    <string name="info_save_meizhi_error">T_T 收藏妹纸失败惹~</string>
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="cn.marco.meizhi"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:name=".GankApplication"
+        android:theme="@style/AppBaseTheme">
+        <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.MeizhiActivity"
+            android:theme="@style/SwipeBackTheme"/>
+        <activity
+            android:name=".ui.PictureActivity"
+            android:theme="@style/SwipeBackTheme"/>
+        <activity
+            android:name=".ui.CategoryActivity"
+            android:label="技术干货"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/TranslateTheme"/>
+        <activity
+            android:name=".ui.WebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/SwipeBackTheme"/>
+        <activity
+            android:name=".ui.BlindVedioActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/SwipeBackTheme"/>
+        <activity
+            android:name=".ui.AboutActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SwipeBackTheme"/>
+    </application>
+
+</manifest>

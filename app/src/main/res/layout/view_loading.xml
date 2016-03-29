@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/line_split"
+    android:padding="8dp"
+    android:gravity="center">
+
+    <ProgressBar
+        android:id="@+id/ivLoading"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        style="@style/Widget.AppCompat.ProgressBar"/>
+
+    <TextView
+        android:layout_toRightOf="@+id/ivLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_centerInParent="true"
+        android:textSize="18sp"
+        android:text="Loading "/>
+
+</RelativeLayout>
