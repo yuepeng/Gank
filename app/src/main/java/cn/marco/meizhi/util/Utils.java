@@ -4,44 +4,45 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.widget.Toast;
-import com.google.gson.Gson;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import cn.marco.meizhi.GankApplication;
-import cn.marco.meizhi.domain.SpCache;
 
 public final class Utils {
-
-    public static final String SP_NAME = "GankIO";
-    private final static Gson sGson = new Gson();
 
     public static void showToast(String message) {
         Toast.makeText(GankApplication.sContext, message, Toast.LENGTH_SHORT).show();
     }
 
-    public static void saveObjToSPFile(String type, SpCache spCache) {
-        SharedPreferences sp = GankApplication.sContext.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
-        String json = sGson.toJson(spCache);
-        sp.edit().putString(type, json).commit();
-    }
+    public static boolean isNeedToRefresh(String publishAt) {
+        SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
+        try {
+            Date date = simple.parse(publishAt);
+            Calendar calendar = Calendar.getInstance();
+            int week = calendar.get(Calendar.DAY_OF_WEEK);
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
 
-    public static SpCache getObjFromSPFile(String type) {
-        SharedPreferences sp = GankApplication.sContext.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
-        String json = sp.getString(type, null);
-        if(TextUtils.isEmpty(json)){
-            return null;
+            if (hour < 12) {
+                return false;
+            }
+
+            if (week == 1 || week == 7) {
+                return false;
+            }
+
+            if(DateUtils.isToday(date.getTime())){
+                return false;
+            }
+            return true;
+        } catch (ParseException e) {
+            return true;
         }
-        return sGson.fromJson(json, SpCache.class);
-    }
-
-    public static <T> T parseFromJson(String json, Class<T> clazz){
-        return sGson.fromJson(json, clazz);
-    }
-
-    public static String serializerToJson(Object obj){
-        return sGson.toJson(obj);
     }
 
     public static void share(Context context, String shareText) {

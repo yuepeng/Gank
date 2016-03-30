@@ -12,6 +12,8 @@ import static cn.marco.meizhi.net.GankApiService.TYPE_WELFARE;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.List;
+
 import cn.marco.meizhi.R;
 import cn.marco.meizhi.adapter.MeizhiAdapter;
 import cn.marco.meizhi.domain.Data;
@@ -19,6 +21,8 @@ import cn.marco.meizhi.domain.Result;
 import cn.marco.meizhi.net.GankApi;
 import cn.marco.meizhi.util.Utils;
 import cn.marco.meizhi.view.LoadMoreRecyclerView;
+import rx.Observable;
+import rx.Subscription;
 
 public class MeizhiActivity extends BaseSwipeBackActivity implements MeizhiAdapter.OnMeizhiClickListener {
 
@@ -67,7 +71,7 @@ public class MeizhiActivity extends BaseSwipeBackActivity implements MeizhiAdapt
                         .compose(GankApi.getInstance().applySchedule())
                         .subscribe(data -> {
                             mIsLoading = false;
-                            mMeizhiAdapter.addDataSource(data.results);
+                            mMeizhiAdapter.addDataSource(data);
                         }, onError);
             } else {
                 Utils.showToast(getString(R.string.info_no_more_data));
@@ -77,13 +81,18 @@ public class MeizhiActivity extends BaseSwipeBackActivity implements MeizhiAdapt
 
     @Override
     public void loadData() {
-        this.addSubscription(toSubscribe(TYPE_WELFARE,
-                Data.class,
-                GankApi.getInstance().getData(TYPE_WELFARE),
-                data -> {
+        Observable<List<Result>> cacheDatas = GankApi.getInstance().getDiskCache(TYPE_WELFARE);
+        Observable<List<Result>> network = GankApi.getInstance().getData(TYPE_WELFARE)
+                .doOnNext(results -> GankApi.getInstance().handleResult(TYPE_WELFARE, results));
+
+        Subscription subscribe = Observable.concat(cacheDatas, network)
+                .first()
+                .compose(GankApi.getInstance().applySchedule())
+                .subscribe(results -> {
                     tryStopRefresh();
-                    mMeizhiAdapter.setWelfares(data.results);
-                }));
+                    mMeizhiAdapter.setWelfares(results);
+                }, onError);
+        this.addSubscription(subscribe);
     }
 
     @Override

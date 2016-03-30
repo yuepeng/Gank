@@ -8,12 +8,28 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.litesuits.orm.db.assit.QueryBuilder;
+import com.litesuits.orm.db.assit.WhereBuilder;
+import com.litesuits.orm.db.model.ConflictAlgorithm;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static cn.marco.meizhi.net.GankApiService.*;
+
+import cn.marco.meizhi.GankApplication;
 import cn.marco.meizhi.R;
 import cn.marco.meizhi.adapter.DailyAdapter;
 import cn.marco.meizhi.domain.DailyData;
+import cn.marco.meizhi.domain.Result;
 import cn.marco.meizhi.net.GankApi;
 import cn.marco.meizhi.net.GankApiService;
+import cn.marco.meizhi.util.Utils;
+import cn.marco.meizhi.util.XLog;
+import okhttp3.internal.Util;
+import rx.Observable;
+import rx.Subscription;
 
 public class MainActivity extends BaseActivity {
 
@@ -52,13 +68,21 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void loadData() {
-        this.addSubscription(toSubscribe(TYPE_MAIN,
-                DailyData.class,
-                GankApi.getInstance().getEverydayData(),
-                dailyData -> {
+        Observable<List<Result>> cacheDatas = GankApi.getInstance().getDiskCache(TYPE_MAIN);
+        Observable<List<Result>> network = GankApi.getInstance().getEverydayData();
+
+        Subscription subscribe = Observable.concat(cacheDatas, network)
+                .first()
+                .compose(GankApi.getInstance().applySchedule())
+                .subscribe(results -> {
+                    if (results == null || results.size() == 0) {
+                        Utils.showToast(getString(R.string.info_no_more_data));
+                    }
                     tryStopRefresh();
-                    mDailyAdapter.setDataSource(dailyData.getResults());
-                }));
+                    mDailyAdapter.setDataSource(results);
+                }, onError);
+        this.addSubscription(subscribe);
+
     }
 
     @Override

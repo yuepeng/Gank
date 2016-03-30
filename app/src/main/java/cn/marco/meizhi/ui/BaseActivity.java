@@ -6,16 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import java.net.UnknownHostException;
 import cn.marco.meizhi.R;
-import cn.marco.meizhi.net.GankApi;
 import cn.marco.meizhi.util.Utils;
 import cn.marco.meizhi.util.XLog;
 import retrofit2.adapter.rxjava.HttpException;
-import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
-
-import static cn.marco.meizhi.net.GankApiService.TYPE_MAIN;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -79,27 +75,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     };
 
-    public CompositeSubscription getCompositeSubscription() {
-        if (this.mCompositeSubscription == null) {
-            this.mCompositeSubscription = new CompositeSubscription();
-        }
-        return this.mCompositeSubscription;
-    }
-
     public void addSubscription(Subscription subscription) {
         if (this.mCompositeSubscription == null) {
             this.mCompositeSubscription = new CompositeSubscription();
         }
         this.mCompositeSubscription.add(subscription);
-    }
-
-    public <T> Subscription toSubscribe(String type, Class<T> clazz, Observable<T> observable, Action1<T> action1) {
-        Observable<T> diskCache = GankApi.getInstance().getDiskCache(type, clazz);
-        Observable<T> network = GankApi.getInstance().getNetwork(type, observable);
-        return Observable.concat(diskCache, network)
-                .first()
-                .compose(GankApi.getInstance().applySchedule())
-                .subscribe(action1, onError);
     }
 
     @Override

@@ -8,6 +8,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+import com.litesuits.orm.db.assit.QueryBuilder;
+import com.litesuits.orm.db.assit.WhereBuilder;
+
+import java.util.List;
+
+import cn.marco.meizhi.GankApplication;
 import cn.marco.meizhi.R;
 import cn.marco.meizhi.adapter.BlindVedioAdapter;
 import cn.marco.meizhi.domain.Data;
@@ -16,8 +22,12 @@ import cn.marco.meizhi.listener.OnRVItemClickListener;
 import cn.marco.meizhi.net.GankApi;
 import cn.marco.meizhi.net.GankApiService;
 import cn.marco.meizhi.util.Utils;
+import cn.marco.meizhi.util.XLog;
 import cn.marco.meizhi.view.LoadMoreRecyclerView;
+import rx.Observable;
 import rx.Subscription;
+
+import static cn.marco.meizhi.net.GankApiService.TYPE_MAIN;
 
 public class BlindVedioActivity extends BaseSwipeBackActivity implements OnRVItemClickListener {
 
@@ -72,7 +82,7 @@ public class BlindVedioActivity extends BaseSwipeBackActivity implements OnRVIte
                         .compose(GankApi.getInstance().applySchedule())
                         .subscribe(dataResult -> {
                             mIsLoading = false;
-                            mBlindVedioAdapter.addDataSource(dataResult.results);
+                            mBlindVedioAdapter.addDataSource(dataResult);
                         }, onError);
                 addSubscription(subscribe);
             } else {
@@ -88,14 +98,19 @@ public class BlindVedioActivity extends BaseSwipeBackActivity implements OnRVIte
 
     @Override
     public void loadData() {
-        this.addSubscription(toSubscribe(mType,
-                Data.class,
-                GankApi.getInstance().getData(mType),
-                data -> {
+        Observable<List<Result>> cacheDatas = GankApi.getInstance().getDiskCache(mType);
+        Observable<List<Result>> network = GankApi.getInstance().getData(mType)
+                .doOnNext(results -> GankApi.getInstance().handleResult(mType, results));
+
+        Subscription subscribe = Observable.concat(cacheDatas, network)
+                .first()
+                .compose(GankApi.getInstance().applySchedule())
+                .subscribe(results -> {
                     tryStopRefresh();
                     mBlindVedioAdapter.setFooterView(R.layout.view_loading);
-                    mBlindVedioAdapter.setDataSource(data.results);
-                }));
+                    mBlindVedioAdapter.setDataSource(results);
+                }, onError);
+        this.addSubscription(subscribe);
     }
 
     @Override

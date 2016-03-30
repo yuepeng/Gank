@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import cn.marco.meizhi.R;
 import cn.marco.meizhi.adapter.CategoryAdapter;
 import cn.marco.meizhi.domain.Data;
@@ -82,9 +84,9 @@ public class CategoryFragment extends Fragment implements OnRVItemClickListener 
                 mIsLoading = true;
                 Subscription subscribe = GankApi.getInstance().getData(mType, ++mPageNumber)
                         .compose(GankApi.getInstance().applySchedule())
-                        .subscribe(dataResult -> {
+                        .subscribe(results -> {
                             mIsLoading = false;
-                            mCategoryAdapter.addDataSource(dataResult.results);
+                            mCategoryAdapter.addDataSource(results);
                         });
                 mCompositeSubscription.add(subscribe);
             } else {
@@ -95,17 +97,19 @@ public class CategoryFragment extends Fragment implements OnRVItemClickListener 
     }
 
     private void loadData() {
-        Observable<Data> diskCache = GankApi.getInstance().getDiskCache(mType, Data.class);
-        Observable<Data> network = GankApi.getInstance().getNetwork(mType, GankApi.getInstance().getData(mType));
-        Subscription subscription = Observable.concat(diskCache, network)
+        Observable<List<Result>> cacheDatas = GankApi.getInstance().getDiskCache(mType);
+        Observable<List<Result>> network = GankApi.getInstance().getData(mType)
+                .doOnNext(results -> GankApi.getInstance().handleResult(mType, results));
+
+        Subscription subscribe = Observable.concat(cacheDatas, network)
                 .first()
                 .compose(GankApi.getInstance().applySchedule())
-                .subscribe(dataResult -> {
+                .subscribe(results -> {
                     mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(false));
                     mCategoryAdapter.setFooterView(R.layout.view_loading);
-                    mCategoryAdapter.setDataSource(dataResult.results);
+                    mCategoryAdapter.setDataSource(results);
                 }, throwable -> Utils.showToast(throwable.getMessage()));
-        this.mCompositeSubscription.add(subscription);
+        this.mCompositeSubscription.add(subscribe);
     }
 
     @Override

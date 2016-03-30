@@ -1,10 +1,14 @@
 package cn.marco.meizhi.net;
 
-import java.util.Calendar;
+import com.litesuits.orm.db.assit.QueryBuilder;
+import com.litesuits.orm.db.assit.WhereBuilder;
 
-import cn.marco.meizhi.domain.Data;
-import cn.marco.meizhi.domain.DailyData;
-import cn.marco.meizhi.domain.SpCache;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import cn.marco.meizhi.GankApplication;
+import cn.marco.meizhi.domain.Result;
 import cn.marco.meizhi.util.Utils;
 import cn.marco.meizhi.util.XLog;
 import retrofit2.Retrofit;
@@ -13,6 +17,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static cn.marco.meizhi.net.GankApiService.TYPE_MAIN;
 
 public class GankApi {
 
@@ -38,55 +44,73 @@ public class GankApi {
         mApiService = retrofit.create(GankApiService.class);
     }
 
-    public Observable<DailyData> getEverydayData() {
+    public Observable<List<Result>> getEverydayData() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int week = calendar.get(Calendar.DAY_OF_WEEK);
 
-        if (week == 1 ) {
+        if (week == 1) {
             day -= 2;
         } else if (week == 7) {
             day -= 1;
         }
 
-        return mApiService.getEverydayData(year, month + 1, day);
+        return mApiService.getEverydayData(year, month + 1, day)
+                .map(dailyData -> dailyData.getResults())
+                .doOnNext(results -> handleResult(TYPE_MAIN, results));
+    }
+
+    public Observable<List<Result>> getData(String type) {
+        return getData(type, 0);
+    }
+
+    public Observable<List<Result>> getData(String category, int pageNumber) {
+        return mApiService.getData(category, PAGE_SIZE, pageNumber).map(data -> data.results);
+    }
+
+    public void handleResult(String category, List<Result> results){
+        if (results != null && results.size() > 0) {
+            for (int i = 0, len = results.size(); i < len; i++) {
+                results.get(i).category = category;
+            }
+            int delete = GankApplication.sLiteOrm.delete(WhereBuilder.create(Result.class).where("category = ?", new String[]{category}));
+            XLog.i(category + "成功删除旧数据: " + delete);
+            int insert = GankApplication.sLiteOrm.insert(results);
+            XLog.i(category + "成功插入新数据: " + insert);
+        } else {
+            // API 没返回新数据，使用DB缓存
+            XLog.i(category + "API 木有返回新数据，使用DB缓存.");
+            QueryBuilder queryBuilder = new QueryBuilder(Result.class);
+            queryBuilder.where("category = ?", new String[]{category});
+            results = GankApplication.sLiteOrm.query(queryBuilder);
+        }
     }
 
     public <T> Observable.Transformer<T, T> applySchedule() {
         return tObservable -> tObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<Data> getData(String type) {
-        return getData(type, 0);
-    }
-
-    public Observable<Data> getData(String type, int pageNumber) {
-        return mApiService.getData(type, PAGE_SIZE, pageNumber);
-    }
-
-    public <T> Observable<T> getDiskCache(final String type, final Class<T> clazz) {
+    public Observable<List<Result>> getDiskCache(final String category) {
         return Observable.create(subscriber -> {
-            SpCache spCache = Utils.getObjFromSPFile(type);
-            if (spCache == null || spCache.isNeedToRefresh()) {
+            QueryBuilder queryBuilder = new QueryBuilder(Result.class);
+            queryBuilder.where("category = ?", new String[]{category});
+            ArrayList<Result> cacheResults = GankApplication.sLiteOrm.query(queryBuilder);
+
+            if (cacheResults == null || cacheResults.size() == 0) {
                 subscriber.onCompleted();
                 return;
             }
 
-            T t = Utils.parseFromJson(spCache.cacheData, clazz);
-            if (t == null) {
+            Result cacheResult = cacheResults.get(0);
+            if (Utils.isNeedToRefresh(cacheResult.publishedAt)) {
                 subscriber.onCompleted();
                 return;
             }
-            XLog.i("LoadData From Disk Cache, Type: " + type);
-            subscriber.onNext(t);
+
+            XLog.i("使用缓存数据...");
+            subscriber.onNext(cacheResults);
         });
-    }
-
-    public <T> Observable<T> getNetwork(String type, Observable<T> observable) {
-        return observable.doOnNext(tData ->
-                        Utils.saveObjToSPFile(type, new SpCache(System.currentTimeMillis(), Utils.serializerToJson(tData)))
-        );
     }
 }
