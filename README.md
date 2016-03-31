@@ -4,12 +4,6 @@
 每天自动更新一张精选妹纸图、一个小视频以及一系列精选程序猿干货(周末不更新)。<br>
 特别感谢[代码家](https://github.com/daimajia)以及他的[干货集中营](http://gank.io)。<br>
 
-![screenshots-3552](https://github.com/yuepeng/Gank/raw/master/screenshorts/Screenshot_2016-03-31-21-35-52.png)
-![screenshots-3613](https://github.com/yuepeng/Gank/raw/master/screenshorts/Screenshot_2016-03-31-21-36-13.png)
-![screenshots-3628](https://github.com/yuepeng/Gank/raw/master/screenshorts/Screenshot_2016-03-31-21-36-28.png)
-![screenshots-3652](https://github.com/yuepeng/Gank/raw/master/screenshorts/Screenshot_2016-03-31-21-36-52.png)
-![screenshots-3716](https://github.com/yuepeng/Gank/raw/master/screenshorts/Screenshot_2016-03-31-21-37-16.png)
-
 ## 用到的开源库
 网络: [Retrofit](https://github.com/square/retrofit)<br>
 数据库: [LiteOrm](https://github.com/litesuits/android-lite-orm)<br>
