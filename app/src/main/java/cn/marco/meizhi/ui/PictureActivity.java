@@ -22,11 +22,6 @@ import cn.marco.meizhi.R;
 import cn.marco.meizhi.util.Utils;
 import cn.marco.meizhi.util.XLog;
 
-/**
- * User  : Yuepeng.
- * Date  : 2016/3/12 21:39
- * Email : yuepeng1014@outlook.com
- */
 public class PictureActivity extends BaseSwipeBackActivity {
 
     private String mUrl;
