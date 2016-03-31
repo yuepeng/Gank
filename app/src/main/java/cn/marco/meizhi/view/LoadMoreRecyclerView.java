@@ -7,10 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 
-/**
- * @author marco(yuepeng1014@outlook.com)
- * @since 2016/3/19 18:42
- */
 public class LoadMoreRecyclerView extends RecyclerView {
 
     private OnLoadMoreListener mLoadMoreListener;
