@@ -50,11 +50,14 @@ public class GankApi {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int week = calendar.get(Calendar.DAY_OF_WEEK);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
 
         if (week == 1) {
             day -= 2;
         } else if (week == 7) {
             day -= 1;
+        } else if (hour < 12){
+            day --;
         }
 
         return mApiService.getEverydayData(year, month + 1, day)
@@ -75,13 +78,10 @@ public class GankApi {
             for (int i = 0, len = results.size(); i < len; i++) {
                 results.get(i).category = category;
             }
-            int delete = GankApplication.sLiteOrm.delete(WhereBuilder.create(Result.class).where("category = ?", new String[]{category}));
-            XLog.i(category + "成功删除旧数据: " + delete);
-            int insert = GankApplication.sLiteOrm.insert(results);
-            XLog.i(category + "成功插入新数据: " + insert);
+            GankApplication.sLiteOrm.delete(WhereBuilder.create(Result.class).where("category = ?", new String[]{category}));
+            GankApplication.sLiteOrm.insert(results);
         } else {
             // API 没返回新数据，使用DB缓存
-            XLog.i(category + "API 木有返回新数据，使用DB缓存.");
             QueryBuilder queryBuilder = new QueryBuilder(Result.class);
             queryBuilder.where("category = ?", new String[]{category});
             results = GankApplication.sLiteOrm.query(queryBuilder);
