@@ -50,11 +50,16 @@ public class GankApi {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int week = calendar.get(Calendar.DAY_OF_WEEK);
-
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        
         if (week == 1) {
             day -= 2;
         } else if (week == 7) {
             day -= 1;
+        } else {
+            if (hour < 12) {
+                day --;
+            }
         }
 
         return mApiService.getEverydayData(year, month + 1, day)
