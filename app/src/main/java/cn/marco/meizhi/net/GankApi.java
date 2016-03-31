@@ -60,6 +60,7 @@ public class GankApi {
             day --;
         }
 
+
         return mApiService.getEverydayData(year, month + 1, day)
                 .map(dailyData -> dailyData.getResults())
                 .doOnNext(results -> handleResult(TYPE_MAIN, results));
