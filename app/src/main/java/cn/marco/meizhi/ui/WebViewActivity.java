@@ -7,12 +7,14 @@ import android.net.http.SslError;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import cn.marco.meizhi.R;
 import cn.marco.meizhi.util.Utils;
+import cn.marco.meizhi.util.XLog;
 
 public class WebViewActivity extends BaseSwipeBackActivity {
 
@@ -41,6 +43,7 @@ public class WebViewActivity extends BaseSwipeBackActivity {
         super.initViews();
         mWebView = (WebView) findViewById(R.id.webView);
         mWebView.setWebViewClient(new XWebViewClient());
+        mWebView.setWebChromeClient(new XWebChromeClient());
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setLoadWithOverviewMode(true);
@@ -55,6 +58,14 @@ public class WebViewActivity extends BaseSwipeBackActivity {
             mWebView.loadUrl(mUrl);
         });
 
+    }
+
+    private class XWebChromeClient extends WebChromeClient{
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            super.onReceivedTitle(view, title);
+            mToolbar.setTitle(title);
+        }
     }
 
     private class XWebViewClient extends WebViewClient {

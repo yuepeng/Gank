@@ -4,10 +4,9 @@
 每天自动更新一张精选妹纸图、一个小视频以及一系列精选程序猿干货(周末不更新)。<br>
 特别感谢[代码家](https://github.com/daimajia)以及他的[干货集中营](http://gank.io)。<br>
 
-<img src="/screenshorts/Screenshot_2016-03-31-21-35-52.png" alt="screenshot" title="screenshot" width="270" height="486" />   <img src="/screenshorts/Screenshot_2016-03-31-21-36-28.png" alt="screenshot" title="screenshot" width="270" height="486" />   
-<img src="/screenshorts/Screenshot_2016-03-31-21-36-13.png" alt="screenshot" title="screenshot" width="270" height="486" />   <img src="/screenshorts/Screenshot_2016-03-31-21-36-52.png" alt="screenshot" title="screenshot" width="270" height="486" />
+<img src="/screenshots/screenshot-1.png" alt="screenshot" title="screenshot" width="270" height="486" />   <img src="/screenshots/screenshot-2.png" alt="screenshot" title="screenshot" width="270" height="486" />
+<img src="/screenshots/screenshot-3.png" alt="screenshot" title="screenshot" width="270" height="486" />   <img src="/screenshots/screenshot-4.png" alt="screenshot" title="screenshot" width="270" height="486" />
 
-<img src="/screenshorts/Screenshot_2016-03-31-21-37-16.png" alt="screenshot" title="screenshot" width="270" height="486" />   
 
 ## 用到的开源库
 网络: [Retrofit](https://github.com/square/retrofit)<br>

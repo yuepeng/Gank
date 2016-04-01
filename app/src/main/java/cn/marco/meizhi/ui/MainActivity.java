@@ -111,4 +111,18 @@ public class MainActivity extends BaseActivity {
         }
         return true;
     }
+
+    private long startTime;
+
+    @Override
+    public void onBackPressed() {
+        long currentTime = System.currentTimeMillis();
+        if(currentTime - startTime <= 1500){
+            super.onBackPressed();
+        }
+        else {
+            startTime = System.currentTimeMillis();
+            Utils.showToast("再按一次返回键退出");
+        }
+    }
 }

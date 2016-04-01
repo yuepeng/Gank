@@ -11,6 +11,7 @@ import cn.marco.meizhi.GankApplication;
 import cn.marco.meizhi.domain.Result;
 import cn.marco.meizhi.util.Utils;
 import cn.marco.meizhi.util.XLog;
+import okhttp3.internal.Util;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -45,23 +46,8 @@ public class GankApi {
     }
 
     public Observable<List<Result>> getEverydayData() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int week = calendar.get(Calendar.DAY_OF_WEEK);
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-
-        if (week == 1) {
-            day -= 2;
-        } else if (week == 7) {
-            day -= 1;
-        } else if (hour < 12){
-            day --;
-        }
-
-
-        return mApiService.getEverydayData(year, month + 1, day)
+        int[] date = Utils.getDate();
+        return mApiService.getEverydayData(date[0], date[1], date[2])
                 .map(dailyData -> dailyData.getResults())
                 .doOnNext(results -> handleResult(TYPE_MAIN, results));
     }
@@ -74,7 +60,7 @@ public class GankApi {
         return mApiService.getData(category, PAGE_SIZE, pageNumber).map(data -> data.results);
     }
 
-    public void handleResult(String category, List<Result> results){
+    public void handleResult(String category, List<Result> results) {
         if (results != null && results.size() > 0) {
             for (int i = 0, len = results.size(); i < len; i++) {
                 results.get(i).category = category;

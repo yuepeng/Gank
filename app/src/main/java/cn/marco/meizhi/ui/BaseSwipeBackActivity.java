@@ -10,13 +10,14 @@ import cn.marco.meizhi.R;
 public abstract class BaseSwipeBackActivity extends BaseActivity {
 
     public abstract String getToolbarTitle();
+    protected Toolbar mToolbar;
 
     @Override
     public void initViews() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar != null){
-            toolbar.setTitle(getToolbarTitle());
-            setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if(mToolbar != null){
+            mToolbar.setTitle(getToolbarTitle());
+            setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         setupSlidingPaneLayout();
