@@ -1,17 +1,11 @@
 package cn.marco.meizhi.adapter;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -20,7 +14,7 @@ import cn.marco.meizhi.domain.Result;
 import cn.marco.meizhi.listener.OnRVItemClickListener;
 import cn.marco.meizhi.net.GankApiService;
 
-public class BlindVedioAdapter extends BaseRecycerAdapter {
+public class BlindVedioAdapter extends BaseRecyclerAdapter {
 
     private List<Result> mBlindVedioResults;
     private OnRVItemClickListener mListener;

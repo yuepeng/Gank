@@ -53,34 +53,13 @@ public class MeizhiAdapter extends RecyclerView.Adapter<MeizhiAdapter.ViewHolder
         // 使用Picasso加载图片
         Picasso.with(mContext)
                 .load(welfare.url)
-//                .transform(new Transformation() {
-//                    @Override
-//                    public Bitmap transform(Bitmap source) {
-//                        int width = source.getWidth();
-//                        int height = source.getHeight();
-//                        Matrix matrix = new Matrix();
-//                        matrix.postScale(0.5f, 0.5f);
-//                        Bitmap result = Bitmap.createBitmap(source, 0, 0, width, height, matrix, true);
-//                        if (result != source) {
-//                            source.recycle();
-//                        }
-//                        return result;
-//                    }
-//
-//                    @Override
-//                    public String key() {
-//                        return welfare.url;
-//                    }
-//                })
+
                 .into(holder.ivMeizhi);
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.cardView.setOnClickListener(v -> {
                 if(mListener != null){
                     mListener.onMeizhiClick(v, welfare);
                 }
-            }
         });
     }
 

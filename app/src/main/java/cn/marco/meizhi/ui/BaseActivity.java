@@ -85,7 +85,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         if (this.mCompositeSubscription != null) {
-            XLog.i("onDestory unsubscribe.");
             this.mCompositeSubscription.unsubscribe();
         }
         super.onDestroy();

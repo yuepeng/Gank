@@ -11,7 +11,7 @@ import cn.marco.meizhi.R;
 import cn.marco.meizhi.domain.Result;
 import cn.marco.meizhi.listener.OnRVItemClickListener;
 
-public class CategoryAdapter extends BaseRecycerAdapter{
+public class CategoryAdapter extends BaseRecyclerAdapter {
 
     private List<Result> mDataResults;
     private OnRVItemClickListener mListener;

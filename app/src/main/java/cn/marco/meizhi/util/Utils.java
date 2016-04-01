@@ -17,8 +17,6 @@ import cn.marco.meizhi.GankApplication;
 
 public final class Utils {
 
-    public static final int[] MONTHS = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
     public static void showToast(String message) {
         Toast.makeText(GankApplication.sContext, message, Toast.LENGTH_SHORT).show();
     }
