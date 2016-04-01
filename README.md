@@ -5,6 +5,7 @@
 特别感谢[代码家](https://github.com/daimajia)以及他的[干货集中营](http://gank.io)。<br>
 
 <img src="/screenshots/screenshot-1.png" alt="screenshot" title="screenshot" width="270" height="486" />   <img src="/screenshots/screenshot-2.png" alt="screenshot" title="screenshot" width="270" height="486" />
+
 <img src="/screenshots/screenshot-3.png" alt="screenshot" title="screenshot" width="270" height="486" />   <img src="/screenshots/screenshot-4.png" alt="screenshot" title="screenshot" width="270" height="486" />
 
 
