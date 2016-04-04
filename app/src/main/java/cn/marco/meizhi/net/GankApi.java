@@ -48,7 +48,18 @@ public class GankApi {
     public Observable<List<Result>> getEverydayData() {
         int[] date = Utils.getDate();
         return mApiService.getEverydayData(date[0], date[1], date[2])
-                .map(dailyData -> dailyData.getResults())
+                .map(new Func1<DailyData, List<Result>>() {
+                    @Override
+                    public List<Result> call(DailyData dailyData) {
+                        List<Result> results = dailyData.getResults();
+                        if (results == null || results.size() == 0) {
+                            QueryBuilder queryBuilder = new QueryBuilder(Result.class);
+                            queryBuilder.where("category = ?", new String[]{TYPE_MAIN});
+                            results = GankApplication.sLiteOrm.query(queryBuilder);
+                        }
+                        return results;
+                    }
+                })
                 .doOnNext(results -> handleResult(TYPE_MAIN, results));
     }
 
@@ -67,11 +78,6 @@ public class GankApi {
             }
             GankApplication.sLiteOrm.delete(WhereBuilder.create(Result.class).where("category = ?", new String[]{category}));
             GankApplication.sLiteOrm.insert(results);
-        } else {
-            // API 没返回新数据，使用DB缓存
-            QueryBuilder queryBuilder = new QueryBuilder(Result.class);
-            queryBuilder.where("category = ?", new String[]{category});
-            results = GankApplication.sLiteOrm.query(queryBuilder);
         }
     }
 
