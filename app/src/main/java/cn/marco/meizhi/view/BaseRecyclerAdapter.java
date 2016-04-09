@@ -102,6 +102,9 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<RecyclerV
         }
     }
 
+    public boolean hasFooterView(){
+        return this.mFooterViewLayoutId != -1;
+    }
 
     protected class HeaderViewHolder extends RecyclerView.ViewHolder {
 

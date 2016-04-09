@@ -4,7 +4,7 @@ import android.util.Log;
 
 public final class Logger {
 
-    public static final String TAG = "meizhi";
+    public static final String TAG = "Gank";
 
     public static void i(String message) {
         Log.i(TAG, message);

@@ -12,6 +12,7 @@ import cn.marco.meizhi.R;
 import cn.marco.meizhi.data.entry.Result;
 import cn.marco.meizhi.module.BaseCategoryActivity;
 import cn.marco.meizhi.util.ActivityRouter;
+import cn.marco.meizhi.util.Utils;
 import cn.marco.meizhi.view.LoadMoreRecyclerView;
 
 public class VideoActivity extends BaseCategoryActivity {
@@ -37,6 +38,11 @@ public class VideoActivity extends BaseCategoryActivity {
         videoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         videoRecyclerView.setAdapter(mVideoAdapter = new VideoAdapter());
         return videoRecyclerView;
+    }
+
+    @Override protected void noMoreData() {
+        mVideoAdapter.removeFooterView();
+        Utils.showToast(getString(R.string.info_no_more_data));
     }
 
     @Override public void displayResults(List<Result> results) {

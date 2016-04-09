@@ -13,8 +13,10 @@ import java.util.List;
 import cn.marco.meizhi.module.BaseActivity;
 import cn.marco.meizhi.C;
 import cn.marco.meizhi.R;
+import cn.marco.meizhi.module.BaseSwipeBackActivity;
+import cn.marco.meizhi.util.Logger;
 
-public class CategoryActivity extends BaseActivity {
+public class CategoryActivity extends BaseSwipeBackActivity {
 
     @Override protected int getContentView() {
         return R.layout.activity_category;

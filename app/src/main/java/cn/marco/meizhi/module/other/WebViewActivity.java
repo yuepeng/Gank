@@ -67,28 +67,24 @@ public class WebViewActivity extends BaseSwipeBackActivity {
 
     private class XWebViewClient extends WebViewClient {
 
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        @Override public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             mSwipeRefreshLayout.setRefreshing(true);
             mSwipeRefreshLayout.setEnabled(true);
         }
 
-        @Override
-        public void onPageFinished(WebView view, String url) {
+        @Override public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             mSwipeRefreshLayout.setRefreshing(false);
             mSwipeRefreshLayout.setEnabled(false);
         }
 
-        @Override
-        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        @Override public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
             // 处理 HTTPS 证书过期或私有证书无法打开的情况~
             handler.proceed();
         }
 
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        @Override public boolean shouldOverrideUrlLoading(WebView view, String url) {
             if(url != null){
                 view.loadUrl(url);
             }
@@ -96,16 +92,12 @@ public class WebViewActivity extends BaseSwipeBackActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_webview, menu);
         return true;
     }
 
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
@@ -126,8 +118,7 @@ public class WebViewActivity extends BaseSwipeBackActivity {
         return true;
     }
 
-    @Override
-    public void onBackPressed() {
+    @Override public void onBackPressed() {
         if (mWebView.canGoBack()) {
             mWebView.goBack();
             return;
@@ -135,8 +126,7 @@ public class WebViewActivity extends BaseSwipeBackActivity {
         super.onBackPressed();
     }
 
-    @Override
-    protected void onDestroy() {
+    @Override protected void onDestroy() {
         if (mWebView != null) {
             mWebView.clearCache(true);
             mWebView.clearHistory();

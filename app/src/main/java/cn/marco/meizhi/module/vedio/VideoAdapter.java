@@ -19,14 +19,14 @@ public class VideoAdapter extends BaseRecyclerAdapter {
     private OnRVItemClickListener mListener;
 
     public void setDataSource(List<Result> results) {
-        if(results != null){
+        if (results != null) {
             this.mResults = results;
             this.notifyDataSetChanged();
         }
     }
 
     public void addDataSource(List<Result> results) {
-        if(results != null){
+        if (results != null) {
             this.mResults.addAll(results);
             this.notifyDataSetChanged();
         }
@@ -36,13 +36,11 @@ public class VideoAdapter extends BaseRecyclerAdapter {
         this.mListener = listener;
     }
 
-    @Override
-    public int getDataSourceCount() {
+    @Override public int getDataSourceCount() {
         return mResults == null ? 0 : mResults.size();
     }
 
-    @Override
-    public void onChildBindViewHolder(RecyclerView.ViewHolder rHolder, int position) {
+    @Override public void onChildBindViewHolder(RecyclerView.ViewHolder rHolder, int position) {
         Result result = mResults.get(position);
         ViewHolder holder = (ViewHolder) rHolder;
         holder.tvDesc.setText(result.desc);
@@ -56,8 +54,7 @@ public class VideoAdapter extends BaseRecyclerAdapter {
 
     }
 
-    @Override
-    public RecyclerView.ViewHolder onChildCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override public RecyclerView.ViewHolder onChildCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_vedio, parent, false);
         return new ViewHolder(itemView);
     }

@@ -33,8 +33,7 @@ public class GankRepository implements GankDataSource {
         SingletonHolder.sInstance = null;
     }
 
-    @Override
-    public Observable<List<Result>> getDailyResults() {
+    @Override public Observable<List<Result>> getDailyResults() {
         Observable<List<Result>> local = mLocalDataSource.getDailyResults();
         Observable<List<Result>> remote = mRemoteDataSource.getDailyResults()
                 .doOnNext(results -> mLocalDataSource.saveResults(C.category.main, results));
@@ -44,8 +43,7 @@ public class GankRepository implements GankDataSource {
                 .compose(applySchedule());
     }
 
-    @Override
-    public Observable<List<Result>> getCategoryResults(String category) {
+    @Override public Observable<List<Result>> getCategoryResults(String category) {
         Observable<List<Result>> local = mLocalDataSource.getCategoryResults(category);
         Observable<List<Result>> remote = mRemoteDataSource.getCategoryResults(category)
                 .doOnNext(results -> mLocalDataSource.saveResults(category, results));
@@ -55,8 +53,7 @@ public class GankRepository implements GankDataSource {
                 .compose(applySchedule());
     }
 
-    @Override
-    public Observable<List<Result>> getCategoryResults(String category, int pageNumber) {
+    @Override public Observable<List<Result>> getCategoryResults(String category, int pageNumber) {
         return this.mRemoteDataSource.getCategoryResults(category, pageNumber).compose(applySchedule());
     }
 

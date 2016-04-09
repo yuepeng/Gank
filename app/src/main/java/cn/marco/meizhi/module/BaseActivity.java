@@ -6,7 +6,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import java.util.concurrent.TimeUnit;
+
 import cn.marco.meizhi.R;
+import cn.marco.meizhi.util.Logger;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
 
@@ -38,8 +44,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     }
 
     @Override public void finishLoading() {
-        if (this.mSwipeRefreshLayout != null) {
-            this.mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(false));
+        if (mSwipeRefreshLayout != null) {
+            Observable.timer(1, TimeUnit.SECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(time -> mSwipeRefreshLayout.setRefreshing(false));
         }
     }
 }

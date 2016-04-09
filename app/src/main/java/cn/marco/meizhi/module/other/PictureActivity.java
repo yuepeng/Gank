@@ -45,7 +45,7 @@ public class PictureActivity extends BaseSwipeBackActivity {
         }
 
         ImageView imageView = (ImageView) findViewById(R.id.ivMeizhi);
-        ViewCompat.setTransitionName(imageView, "picture");
+        ViewCompat.setTransitionName(imageView, C.extra.picture);
         Picasso.with(this).load(mUrl).into(imageView);
     }
 
@@ -66,8 +66,8 @@ public class PictureActivity extends BaseSwipeBackActivity {
 
     private void saveToSdCard() {
         Target target = new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+
+            @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 new Thread(()->{
                     File meizhiDir = new File(Environment.getExternalStorageDirectory(), "MeiZhi");
                     if(!meizhiDir.exists()) {
@@ -89,13 +89,11 @@ public class PictureActivity extends BaseSwipeBackActivity {
                 }).start();
             }
 
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
+            @Override public void onBitmapFailed(Drawable errorDrawable) {
                 Utils.showToast(getString(R.string.info_save_meizhi_error));
             }
 
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
+            @Override public void onPrepareLoad(Drawable placeHolderDrawable) {
             }
         };
 

@@ -26,7 +26,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.HomeView 
     private HomeAdapter mHomeAdapter;
     private HomeContract.Presenter mHomePresenter;
 
-
     @Override protected int getContentView() {
         return R.layout.activity_main;
     }
@@ -58,7 +57,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.HomeView 
 
 
     @Override public void displayError(String errorMessage) {
-        // TODO 展示错误信息
+        Utils.showToast(errorMessage);
     }
 
     @Override public void gotoGankDetail(Result result) {
@@ -99,7 +98,12 @@ public class HomeActivity extends BaseActivity implements HomeContract.HomeView 
         }
         else {
             startTime = System.currentTimeMillis();
-            Utils.showToast("再按一次返回键退出");
+            Utils.showToast(getString(R.string.aty_home_exit));
         }
+    }
+
+    @Override protected void onDestroy() {
+        this.mHomePresenter.destroy();
+        super.onDestroy();
     }
 }

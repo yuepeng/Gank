@@ -48,14 +48,15 @@ public abstract class BaseCategoryActivity extends BaseSwipeBackActivity impleme
                 mIsLoading = true;
                 mCategoryPresenter.loadMore(++mPageNumber);
             }
-            else {
-                Utils.showToast(getString(R.string.info_no_more_data));
+            else if (mPageNumber >= C.number.max_page_number) {
+                noMoreData();
             }
         });
     }
 
     protected abstract LoadMoreRecyclerView initRecyclerView();
 
+    protected abstract void noMoreData();
 
     @Override public void loadMoreResults(List<Result> results) {
         mIsLoading = false;
@@ -63,11 +64,15 @@ public abstract class BaseCategoryActivity extends BaseSwipeBackActivity impleme
     }
 
     @Override public void loadMoreResultsFail(Throwable throwable) {
-
+        mIsLoading = false;
+        if(mPageNumber < C.number.max_page_number){
+            mPageNumber -- ;
+        }
+        Utils.showToast(throwable.getMessage());
     }
 
     @Override public void displayError(String errorMessage) {
-
+        Utils.showToast(errorMessage);
     }
 
     protected abstract void addDataSource(List<Result> results);

@@ -7,8 +7,10 @@ import java.util.List;
 import cn.marco.meizhi.C;
 import cn.marco.meizhi.data.entry.Result;
 import cn.marco.meizhi.data.source.GankRepository;
+import cn.marco.meizhi.module.BaseAbstractPresenter;
+import rx.Subscription;
 
-public class HomePresenter implements HomeContract.Presenter {
+public class HomePresenter extends BaseAbstractPresenter implements HomeContract.Presenter {
 
     private HomeContract.HomeView mHomeView;
     private GankRepository mRepository;
@@ -23,13 +25,15 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
 
+
     @Override public void refresh() {
         this.loadData();
     }
 
     private void loadData() {
         this.mHomeView.startLoading();
-        this.mRepository.getDailyResults().subscribe(this::onSuccess, this::onError);
+        Subscription subscribe = mRepository.getDailyResults().subscribe(this::onSuccess, this::onError);
+        this.addSubscription(subscribe);
     }
 
     @Override public void onItemClick(View view, Result result) {
@@ -50,4 +54,9 @@ public class HomePresenter implements HomeContract.Presenter {
         this.mHomeView.finishLoading();
         this.mHomeView.displayError(error.getMessage());
     }
+
+    @Override public void destroy() {
+        destroyAllSubscription();
+    }
+
 }

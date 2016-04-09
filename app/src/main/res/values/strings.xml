@@ -24,8 +24,12 @@
     <string name="aty_about_lbl_share">每日分享技术干货 ^_^</string>
     <string name="aty_about_lbl_introduce">介绍</string>
     <string name="aty_about_lbl_opensource">使用的开源库</string>
+
     <string name="aty_meizhi_title">妹纸</string>
     <string name="aty_video_title">休息视频</string>
+    <string name="aty_category_title">技术干货</string>
+
+    <string name="aty_home_exit">再按一次返回键退出</string>
 
     <string name="info_no_more_data">木有更多数据惹~</string>
     <string name="info_network_error">啊咧，网络似乎出了点问题...</string>

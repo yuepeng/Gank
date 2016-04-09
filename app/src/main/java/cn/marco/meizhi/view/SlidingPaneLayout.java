@@ -18,6 +18,7 @@ import android.support.annotation.DrawableRes;
 import android.support.v4.view.AccessibilityDelegateCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
@@ -753,7 +754,7 @@ public class SlidingPaneLayout extends ViewGroup {
                 final float adx = Math.abs(x - mInitialMotionX);
                 final float ady = Math.abs(y - mInitialMotionY);
                 final int slop = mDragHelper.getTouchSlop();
-                if (adx > slop && ady > adx) {
+                if (adx > slop && ady > adx || canScroll(this, false, Math.round(x - mInitialMotionX), Math.round(x), Math.round(y))) {
                     mDragHelper.cancel();
                     mIsUnableToDrag = true;
                     return false;
@@ -1189,7 +1190,13 @@ public class SlidingPaneLayout extends ViewGroup {
             }
         }
 
-        return checkV && ViewCompat.canScrollHorizontally(v, (isLayoutRtlSupport() ? dx : -dx));
+        return checkV && (ViewCompat.canScrollHorizontally(v, -dx) ||
+                ((v instanceof ViewPager) && canViewPagerScrollHorizontally((ViewPager) v, -dx)));
+    }
+
+    boolean canViewPagerScrollHorizontally(ViewPager p, int dx) {
+        return !(dx < 0 && p.getCurrentItem() <= 0 ||
+                0 < dx && p.getAdapter().getCount() - 1 <= p.getCurrentItem());
     }
 
     boolean isDimmed(View child) {

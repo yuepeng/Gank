@@ -15,18 +15,15 @@ import rx.Observable;
 
 public class GankLocalDataSourceImpl implements GankLocalDataSource {
 
-    @Override
-    public Observable<List<Result>> getDailyResults() {
+    @Override public Observable<List<Result>> getDailyResults() {
         return this.loadDataSourceFromDB(C.category.main);
     }
 
-    @Override
-    public Observable<List<Result>> getCategoryResults(String category) {
+    @Override public Observable<List<Result>> getCategoryResults(String category) {
         return this.loadDataSourceFromDB(category);
     }
 
-    @Override
-    public void saveResults(String category, List<Result> results) {
+    @Override public void saveResults(String category, List<Result> results) {
         if (results != null && results.size() > 0) {
             for (int i = 0, len = results.size(); i < len; i++) {
                 results.get(i).category = category;
@@ -53,7 +50,6 @@ public class GankLocalDataSourceImpl implements GankLocalDataSource {
                 return;
             }
 
-            Logger.i("使用缓存数据...");
             subscriber.onNext(cacheResults);
         });
     }

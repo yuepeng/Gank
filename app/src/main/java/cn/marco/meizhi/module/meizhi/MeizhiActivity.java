@@ -12,6 +12,7 @@ import cn.marco.meizhi.data.entry.Result;
 import cn.marco.meizhi.module.BaseCategoryActivity;
 import cn.marco.meizhi.module.CategoryContract;
 import cn.marco.meizhi.util.ActivityRouter;
+import cn.marco.meizhi.util.Utils;
 import cn.marco.meizhi.view.LoadMoreRecyclerView;
 
 public class MeizhiActivity extends BaseCategoryActivity implements CategoryContract.CategoryView {
@@ -37,6 +38,10 @@ public class MeizhiActivity extends BaseCategoryActivity implements CategoryCont
         meizhiRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         meizhiRecyclerView.setAdapter(mMeizhiAdapter = new MeizhiAdapter(this));
         return meizhiRecyclerView;
+    }
+
+    @Override protected void noMoreData() {
+        Utils.showToast(getString(R.string.info_no_more_data));
     }
 
     @Override protected void addDataSource(List<Result> results) {

@@ -9,7 +9,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import cn.marco.meizhi.C;
 import cn.marco.meizhi.R;
 import cn.marco.meizhi.data.entry.Result;
@@ -17,8 +20,13 @@ import cn.marco.meizhi.data.source.GankRepository;
 import cn.marco.meizhi.module.CategoryContract;
 import cn.marco.meizhi.module.CategoryPresenter;
 import cn.marco.meizhi.util.ActivityRouter;
+import cn.marco.meizhi.util.Logger;
 import cn.marco.meizhi.util.Utils;
 import cn.marco.meizhi.view.LoadMoreRecyclerView;
+import rx.Observable;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class CategoryFragment extends Fragment implements CategoryContract.CategoryView {
 
@@ -54,11 +62,12 @@ public class CategoryFragment extends Fragment implements CategoryContract.Categ
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         categoryRecyclerView.setOnLoadMoreListener(() -> {
+            Logger.i("mIsLoading = " + mIsLoading + " , mPageNumber = " + mPageNumber);
             if (!mIsLoading && mPageNumber < C.number.max_page_number) {
                 mIsLoading = true;
                 mCategoryPresenter.loadMore(++mPageNumber);
             }
-            else {
+            else if (mPageNumber >= C.number.max_page_number) {
                 mCategoryAdapter.removeFooterView();
                 Utils.showToast(getString(R.string.info_no_more_data));
             }
@@ -80,11 +89,15 @@ public class CategoryFragment extends Fragment implements CategoryContract.Categ
     }
 
     @Override public void displayError(String errorMessage) {
-        // TODO 无法展示...
+        Utils.showToast(errorMessage);
     }
 
     @Override public void loadMoreResultsFail(Throwable throwable) {
-        // TODO 加载更多失败...
+        mIsLoading = false;
+        if (mPageNumber < C.number.max_page_number) {
+            mPageNumber--;
+        }
+        Utils.showToast(throwable.getMessage());
     }
 
     @Override public String getCategory() {
@@ -93,13 +106,23 @@ public class CategoryFragment extends Fragment implements CategoryContract.Categ
 
     @Override public void startLoading() {
         if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
+            mSwipeRefreshLayout.post(() -> {
+                mSwipeRefreshLayout.setRefreshing(true);
+            });
         }
     }
 
     @Override public void finishLoading() {
         if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(false));
+            Observable.timer(1, TimeUnit.SECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(time -> mSwipeRefreshLayout.setRefreshing(false));
         }
+    }
+
+    @Override public void onDestroy() {
+        this.mCategoryPresenter.destroy();
+        super.onDestroy();
     }
 }

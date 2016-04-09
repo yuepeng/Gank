@@ -24,19 +24,15 @@ public class GankRemoteDataSourceImpl implements GankDataSource{
         mApiService = retrofit.create(GankService.class);
     }
 
-
-    @Override
-    public Observable<List<Result>> getDailyResults() {
+    @Override public Observable<List<Result>> getDailyResults() {
         return this.mApiService.getHistory().flatMap(this::getNearlyDate);
     }
 
-    @Override
-    public Observable<List<Result>> getCategoryResults(String category) {
+    @Override public Observable<List<Result>> getCategoryResults(String category) {
         return this.getCategoryResults(category, 0);
     }
 
-    @Override
-    public Observable<List<Result>> getCategoryResults(String category, int pageNumber) {
+    @Override public Observable<List<Result>> getCategoryResults(String category, int pageNumber) {
         return this.mApiService.getData(category, C.number.page_size, pageNumber).map(datas -> datas.results);
     }
 
