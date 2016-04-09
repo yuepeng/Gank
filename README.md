@@ -1,5 +1,6 @@
 # Gank.io 非官方 Android 客户端
-[待续] 一个业余小玩具，RxJava, Retrofit, MVP...
+[待续] 一个业余小玩具，(参考 Google 的 [android-architecture](https://github.com/googlesamples/android-architecture/tree/todo-mvp/)项目, RxJava, Retrofit, MVP...
+
 
 每天自动更新一张精选妹纸图、一个小视频以及一系列精选程序猿干货(周末不更新)。<br>
 特别感谢[代码家](https://github.com/daimajia)以及他的[干货集中营](http://gank.io)。<br>
