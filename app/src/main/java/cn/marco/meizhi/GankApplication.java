@@ -6,7 +6,6 @@ import com.litesuits.orm.LiteOrm;
 
 public class GankApplication extends Application {
 
-    public static final String GANK_DB = "Gank.db";
     public static Context sContext;
     public static LiteOrm sLiteOrm;
 
@@ -14,6 +13,6 @@ public class GankApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sContext = this;
-        sLiteOrm = LiteOrm.newSingleInstance(this, GANK_DB);
+        sLiteOrm = LiteOrm.newSingleInstance(this, C.global.database);
     }
 }

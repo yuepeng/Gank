@@ -20,11 +20,6 @@
         android:title="@string/menu_restvedio"/>
 
     <item
-        android:id="@+id/nav_recommend"
-        app:showAsAction="never"
-        android:title="@string/menu_recommend"/>
-
-    <item
         android:id="@+id/nav_about"
         app:showAsAction="never"
         android:title="@string/menu_about"/>

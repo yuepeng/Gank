@@ -30,25 +30,25 @@ android {
 
     buildTypes {
         release {
-            buildConfigField "boolean", "LOG_DEBUG", "false"
-            debuggable false
+//            buildConfigField "boolean", "LOG_DEBUG", "false"
+//            debuggable false
             minifyEnabled false
-            shrinkResources true
+//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            if (keyStore.exists()) {
-                signingConfig signingConfigs.release
-            }
+//            if (keyStore.exists()) {
+//                signingConfig signingConfigs.release
+//            }
 
-            applicationVariants.all { varinat ->
-                varinat.outputs.each { output ->
-                    def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        def fileName = "Gank_v${versionName}_${releaseTime()}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
-                    }
-                }
-            }
+//            applicationVariants.all { varinat ->
+//                varinat.outputs.each { output ->
+//                    def outputFile = output.outputFile
+//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                        def fileName = "Gank_v${versionName}_${releaseTime()}.apk"
+//                        output.outputFile = new File(outputFile.parent, fileName)
+//                    }
+//                }
+//            }
         }
     }
 
