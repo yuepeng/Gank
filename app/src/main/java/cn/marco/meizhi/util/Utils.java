@@ -25,6 +25,10 @@ public final class Utils {
         SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
         try {
             Date date = simple.parse(publishAt);
+            if (!DateUtils.isToday(date.getTime())) {
+                return true;
+            }
+
             Calendar calendar = Calendar.getInstance();
             int week = calendar.get(Calendar.DAY_OF_WEEK);
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -37,9 +41,6 @@ public final class Utils {
                 return false;
             }
 
-            if (DateUtils.isToday(date.getTime())) {
-                return false;
-            }
             return true;
         } catch (ParseException e) {
             return true;

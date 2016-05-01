@@ -22,9 +22,9 @@ import cn.marco.meizhi.module.CategoryPresenter;
 import cn.marco.meizhi.util.ActivityRouter;
 import cn.marco.meizhi.util.Logger;
 import cn.marco.meizhi.util.Utils;
+import cn.marco.meizhi.view.DividerItemDecoration;
 import cn.marco.meizhi.view.LoadMoreRecyclerView;
 import rx.Observable;
-import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -54,6 +54,7 @@ public class CategoryFragment extends Fragment implements CategoryContract.Categ
 
     private void setUpRecyclerView(View view) {
         final LoadMoreRecyclerView categoryRecyclerView = (LoadMoreRecyclerView) view.findViewById(R.id.recyclerView);
+        categoryRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         categoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

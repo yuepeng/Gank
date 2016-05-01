@@ -13,6 +13,7 @@ import cn.marco.meizhi.data.entry.Result;
 import cn.marco.meizhi.module.BaseCategoryActivity;
 import cn.marco.meizhi.util.ActivityRouter;
 import cn.marco.meizhi.util.Utils;
+import cn.marco.meizhi.view.DividerItemDecoration;
 import cn.marco.meizhi.view.LoadMoreRecyclerView;
 
 public class VideoActivity extends BaseCategoryActivity {
@@ -36,6 +37,7 @@ public class VideoActivity extends BaseCategoryActivity {
         LoadMoreRecyclerView videoRecyclerView = (LoadMoreRecyclerView) findViewById(R.id.recyclerView);
         videoRecyclerView.setItemAnimator(new DefaultItemAnimator());
         videoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        videoRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         videoRecyclerView.setAdapter(mVideoAdapter = new VideoAdapter());
         return videoRecyclerView;
     }

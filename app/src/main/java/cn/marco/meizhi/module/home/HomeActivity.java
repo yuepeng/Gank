@@ -18,6 +18,7 @@ import cn.marco.meizhi.data.entry.Result;
 import cn.marco.meizhi.data.source.GankRepository;
 import cn.marco.meizhi.util.ActivityRouter;
 import cn.marco.meizhi.util.Utils;
+import cn.marco.meizhi.view.DividerItemDecoration;
 
 
 public class HomeActivity extends BaseActivity implements HomeContract.HomeView {
@@ -48,6 +49,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.HomeView 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mHomeAdapter = new HomeAdapter(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         mHomeAdapter.setItemClickListener(mHomePresenter::onItemClick);
     }
 
@@ -65,7 +67,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.HomeView 
     }
 
     @Override public void gotoBeauty(View view, Result result) {
-        ActivityRouter.gotoBeauty(this, view, result);
+        ActivityRouter.gotoBeauty(this, null, result);
     }
 
 

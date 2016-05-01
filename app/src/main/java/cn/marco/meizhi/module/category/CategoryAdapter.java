@@ -1,6 +1,7 @@
 package cn.marco.meizhi.module.category;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -53,7 +54,7 @@ public class CategoryAdapter extends BaseRecyclerAdapter {
     }
 
     @Override public RecyclerView.ViewHolder onChildCreateViewHolder(ViewGroup parent, int viewType) {
-        View convertView = View.inflate(parent.getContext(), R.layout.item_category, null);
+        View convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false);
         ViewHolder holder = new ViewHolder(convertView);
         return holder;
     }

@@ -27,8 +27,12 @@ public final class ActivityRouter {
     public static void gotoBeauty(Activity context, View view, Result result) {
         Intent intent = createIntent(context, PictureActivity.class);
         fillIntentExtra(intent, result);
-        ActivityOptionsCompat option = ActivityOptionsCompat.makeSceneTransitionAnimation(context, view, C.extra.picture);
-        ActivityCompat.startActivity(context, intent, option.toBundle());
+        if (view != null) {
+            ActivityOptionsCompat option = ActivityOptionsCompat.makeSceneTransitionAnimation(context, view, C.extra.picture);
+            ActivityCompat.startActivity(context, intent, option.toBundle());
+            return;
+        }
+        context.startActivity(intent);
     }
 
     public static void gotoWelfare(Context context) {

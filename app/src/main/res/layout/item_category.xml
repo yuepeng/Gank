@@ -5,13 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:background="@drawable/background_selectable_item"
+    android:background="?attr/selectableItemBackground"
     android:orientation="vertical">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/line_split" />
 
     <TextView
         android:id="@+id/tvDesc"
@@ -52,5 +47,4 @@
             android:textSize="12sp"
             android:gravity="center_vertical|right"/>
     </LinearLayout>
-
 </LinearLayout>

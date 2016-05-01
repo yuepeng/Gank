@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_selectable_item"
+    android:background="?attr/selectableItemBackground"
     android:orientation="vertical"
     android:clickable="true">
 
@@ -20,7 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-
         android:paddingBottom="10dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
@@ -73,11 +72,5 @@
         android:padding="12dp"
         android:textColor="@android:color/black"
         android:textSize="16sp"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/line_split" />
-
 </LinearLayout>
 

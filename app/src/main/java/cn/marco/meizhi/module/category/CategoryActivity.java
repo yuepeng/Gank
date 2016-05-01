@@ -5,16 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import cn.marco.meizhi.module.BaseActivity;
 import cn.marco.meizhi.C;
 import cn.marco.meizhi.R;
 import cn.marco.meizhi.module.BaseSwipeBackActivity;
-import cn.marco.meizhi.util.Logger;
 
 public class CategoryActivity extends BaseSwipeBackActivity {
 
